@@ -1,129 +1,108 @@
-class Automata:
-    def __init__(self):
-        self.n=0
-        self.q0=[]
-        self.y=[]
-        self.q=[]
-        self.curState=0
-        
 class Task_03_02:
-    def setbit(self,A,index,b,i):
-        if b:
-            A.q0[index]=A.q0[index]|(1<<i)
-        else:
-            A.q0[index]=A.q0[index]&~(1<<i)
-        return 0
-    
-    def read(self,data):
-        n,temp=data[0].split(" ")
-        n=int(n)
-
-        A=Automata()
-        A.n=n
-
-        for j in range(n):
-            A.q0.append(int(temp[j]))
-
+    def read_automata(self,data,n,temp):
+        s=0
+        translate=[]
+        printl=[]
+        for i in range(n): s=s|int(temp[i])<<(n-i-1)
         for i in range(n):
             temp=[]
-            for j in range(1<<(n+1)): temp.append(0)
-            A.q.append(temp)
+            for k in range(2**(n+1)): temp.append(0)
+            translate.append(temp)
 
-        
-        for i in range(1,n+2):
-            temp=data[i].split(" ")
-            n1=int(temp[0])
-            n2=int(temp[1])
-            if i<n+1:
-                for j in range(n1**n2):
-                    A.q[i-1][j]=int(temp[2][j])
+        for i in range(n+1):
+            tmp=data[i].split(" ")
+            n1=int(tmp[0])
+            n2=int(tmp[1])
+            if i<n:
+                for k in range(n1**n2):
+                    translate[i][k]=int(tmp[2][k])
             else:
-                for j in range(n1**n2):
-                    A.y.append(int(temp[2][j]))
+                for k in range(n1**n2):
+                    printl.append(int(tmp[2][k]))
 
-        state=0
-        for i in range(n):
-            self.setbit(A,state,i,n-i)
-
-        A.curState=state
-        return A,n
-
-    def solvecurstate(self,A):
-        state=A.curState
-        for i in range(A.n):
-            self.setbit(A,A.curState,A.q[i][state],A.n-i)
-        return 0
-
+        return [n,s,translate,printl]
+            
+           
     def main(self,data):
         data=data.split('\n')
-        A1,n1=self.read(data)
-        A2,n2=self.read(data[n1+2:])
+        if len(data[0].split(" "))==2:
+            n1,temp=data[0].split(" ")
+            n1=int(n1)
+            m1=self.read_automata(data[1:n1+2],n1,temp)
+        else:
+            m1=[0,0,[0],[0,1]]
 
-        Mur=(1<<A1.n)+(1<<A2.n)-1
+        if len(data[n1+2].split(" "))==2:
+            n2,temp=data[n1+2].split(" ")
+            n2=int(n2)
+            m2=self.read_automata(data[n1+3:],n2,temp)
+        else:
+            m2=[0,0,[0],[0,1]]
 
-        print(Mur)
-        '''
-        for i in range(1<<(Mur+1)):
-            for j in range(A1.n):
-                self.setbit(A1,A1.curState,A1.q0[j],A1.n-j)
-            for j in range(A2.n):
-                self.setbit(A2,A2.curState,A2.q0[j],A2.n-j)
+        res=True
+        queue=[]
+        used=[]
+        for i in range(10000):
+            queue.append([0,0])
+            used.append(False)
 
-            for j in range(Mur+1):
-                self.setbit(A1,A1.curState,((1&(1<<j))!=0),0)
-                ans1=A1.y[A1.curState]
-                self.solvecurstate(A1)
+        queue[0][0]=m1[1]
+        queue[0][1]=m2[1]
+        used[(m1[1]<<m1[0])|m2[1]]=True
+        left=0
+        right=1
 
-                self.setbit(A2,A2.curState,((1&(1<<j))!=0),0)
-                ans2=A2.y[A2.curState]
-                self.solvecurstate(A2)
+        while left<right:
+            now1=queue[left][0]
+            now2=queue[left][1]
 
-                if ans1!=ans2:
-                    print(0)
-                    return 0
-        '''
-        return 1
+            left=left+1
+            new11=0
+            new12=0
+            new21=0
+            new22=0
+            G11=0
+            G12=0
+            G21=0
+            G22=0
+            for i in range(m1[0]):
+                new11 = new11 | m1[2][i][(now1<<1)]<<(m1[0]-i-1)
+                new12 = new12 | m1[2][i][(now1<<1)+1]<<(m1[0]-i-1)
 
+            G11=m1[3][now1<<1]
+            G12=m1[3][(now1<<1)+1]
+
+            for i in range(m2[0]):
+                new21 = new21 | m2[2][i][(now2<<1)]<<(m2[0]-i-1)
+                new22 = new22 | m2[2][i][(now2<<1)+1]<<(m2[0]-i-1)
+
+            G21=m2[3][now2<<1]
+            G22=m2[3][(now2<<1)+1]
+
+            if (G11!=G21 or G12!=G22):
+                res=False
+                break
+            
+            if not used[(new11<<m1[0])|new21]:
+                used[(new11<<m1[0])|new21]=True
+                queue[right][0]=new11
+                queue[right][1]=new21
+                right=right+1
                 
+            if not used[(new12<<m1[0])|new22]:
+                used[(new12<<m1[0])|new22]=True
+                queue[right][0]=new12
+                queue[right][1]=new22
+                right=right+1
                 
             
-            
-    
-'''
-5 00000
-2 6 0000000000000000000000000000001010111111111111111111111111111111
-2 6 0000000000000010101111111111110101000000000000101011111111111111
-2 6 0000001010111101010000101011110101000010101111010100001010111111
-2 6 1010100101101001011010010110100101101001011010010110100101101011
-2 6 1010110011001100110011001100110011001100110011001100110011001110
-2 6 0000000000000000000000000000000000000000000000000000000000000011
-5 00001
-2 6 0000000000000000000000000000001010111111111111111111111111111111
-2 6 0000000000000010101111111111110101000000000000101011111111111111
-2 6 0000001010111101010000101011110101000010101111010100001010111111
-2 6 1010100101101001011010010110100101101001011010010110100101101011
-2 6 1010110011001100110011001100110011001100110011001100110011001110
-2 6 0000000000000000000000000000000000000000000000000000000000000011
+        res=int(res)
+        print(res)
 
-'''
+f=open("in.txt","r",encoding="utf-8")
+s=f.read()
+f.close()
 
-s1="5 00000\n"
-s2="2 6 0000000000000000000000000000001010111111111111111111111111111111\n"
-s3="2 6 0000000000000010101111111111110101000000000000101011111111111111\n"
-s4="2 6 0000001010111101010000101011110101000010101111010100001010111111\n"
-s5="2 6 1010100101101001011010010110100101101001011010010110100101101011\n"
-s6="2 6 1010110011001100110011001100110011001100110011001100110011001110\n"
-s7="2 6 0000000000000000000000000000000000000000000000000000000000000011\n"
-s8="5 00001\n"
-s9="2 6 0000000000000000000000000000001010111111111111111111111111111111\n"
-s10="2 6 0000000000000010101111111111110101000000000000101011111111111111\n"
-s11="2 6 0000001010111101010000101011110101000010101111010100001010111111\n"
-s12="2 6 1010100101101001011010010110100101101001011010010110100101101011\n"
-s13="2 6 1010110011001100110011001100110011001100110011001100110011001110\n"
-s14="2 6 0000000000000000000000000000000000000000000000000000000000000011\n"
+A=Task_03_02()
+A.main(s)
 
-s=s1+s2+s3+s4+s5+s6+s7+s8+s9+s10+s11+s12+s13+s14
-#s="2 00\n2 3 00110011\n2 3 11100100\n2 3 01111101\n1 0\n2 2 1101\n2 2 0111"
-B=Task_03_02()
-B.main(s)
-#print(a)
