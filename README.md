@@ -1,1 +1,1 @@
-# Diskrete_Math
+# Discrete_Math
