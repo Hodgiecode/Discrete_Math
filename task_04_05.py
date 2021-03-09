@@ -125,17 +125,14 @@ class Task_04_05:
                     if ( ((td[i][l] == '0') and (td[j][l] != '0')) or ((td[i][l] == '1') and (td[j][l] == '*')) ):
                         break;		
 
+        s=""
         for i in range(t):
             if td[i]!="":
-                print(n,int(float(len(td[i]))/n))
+                s=s+str(n)+" "+str(int(float(len(td[i]))/n))+"\n"
                 for j in range(len(td[i])):
-                    print(td[i][j],end="")
+                    s=s+td[i][j]
                     if((j + 1) % n == 0):
-                        print()
+                        s=s+"\n"
+        return s
        
-f=open("in.txt","r",encoding="utf-8")
-s=f.read()
-f.close()
 
-A=Task_04_05()
-A.main(s)

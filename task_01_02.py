@@ -1,5 +1,7 @@
 class Task_01_02:
-    def main(self,n,vectznac):
+    def main(self,data):
+        k,n,vectznac=data.split(' ')
+        n=int(n)
         kol=1<<n
         flag=1
         vect=[]
@@ -32,11 +34,4 @@ class Task_01_02:
                 flag=0
                 break
 
-        print(flag)
         return flag
-
-n=4
-vect='0000000000000001'
-
-A=Task_01_02()
-A.main(n,vect)

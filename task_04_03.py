@@ -66,15 +66,13 @@ class Task_04_03:
 
         dnf,quantityOfEkInMinimizedDNF=self.finalSort(n,m,dnf)
 
-        print(n,quantityOfEkInMinimizedDNF)
+        s=""
+        s=s+str(n)+" "+str(quantityOfEkInMinimizedDNF)+"\n"
 
         for i in range(quantityOfEkInMinimizedDNF):
-            s="".join(dnf[i][0])
-            print(s)
+            s=s+"".join(dnf[i][0])+"\n"
 
-f=open("in.txt","r",encoding="utf-8")
-s=f.read()
-f.close()
+        return s
+            
 
-A=Task_04_03()
-A.main(s)
+

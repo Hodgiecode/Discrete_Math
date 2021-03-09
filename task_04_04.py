@@ -57,19 +57,15 @@ class Task_04_04:
                    count=count+1
                d[res[i][0]]=d[res[i][0]]+1
 
-       print(count)
+       s=""
+       s=s+str(count)+"\n"
        for i in range(m):
             if d[i]:
                 for j in range(n):
-                    print(table[i][j],end="")
+                    s=s+str(table[i][j])
 
-                print()
+                s=s+"\n"
+       return s
       
 
-f=open("in.txt","r",encoding="utf-8")
-s=f.read()
-f.close()
-
-A=Task_04_04()
-A.main(s)
 

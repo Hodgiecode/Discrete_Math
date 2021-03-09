@@ -3,7 +3,14 @@ class Task_01_05:
         self.table=[]
         
    
-    def main(self,funcquan,task):
+    def main(self,data):
+        data=data.split('\n')
+        funcquan=int(data[0])
+        task=[]
+        data=data[1:]
+        for i in range(funcquan):
+            tmp=data[i].split(" ")
+            task.append([int(tmp[0]),int(tmp[1]),tmp[2]])
         table=[]
 
         #двумерный массив для таблицы
@@ -85,28 +92,5 @@ class Task_01_05:
 
             if rtn==0: break #не базис
                 
-        print(rtn)    
+        return rtn    
 
-'''
-2
-2 2 0001
-2 2 1010
-2
-2 2 0001
-2 2 1010
-
-3
-2 2 0001
-2 2 0111
-2 2 1010
-
-2
-2 2 0111
-2 2 0110
-
-'''
-
-funcquan=2
-task=[[2,2,'0111'],[2,2,'0110']]
-A=Task_01_05()
-A.main(funcquan,task)

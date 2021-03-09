@@ -21,11 +21,6 @@ class Task_02_01:
             if t==1: rtn=0
             if length==1: rtn=1
 
-        print(rtn)
+        return rtn
 
-f=open("in.txt","r",encoding="utf-8")
-s=f.read()
-f.close()
 
-A=Task_02_01()
-A.main(s)

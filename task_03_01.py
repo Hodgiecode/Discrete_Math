@@ -75,25 +75,25 @@ class Task_03_01:
 
     def main(self,data):
         fi,psi,k,n,m=self.read(data)
-        length=k-1 # len - макс длина слов, которую необходимо проверить 
+        length=k-1 # len - макс длина слов, которую необходимо проверить
+        s=""
         for i in range(length):
             for j in range(i+1,k): # попарно сравниваем состояния, при этом всегда i<j
                 if self.check_if_equal(fi,psi,k,n,m,i,j,1,length)==1: #рекурс ф-я, перебирающая все слова длины от 1 до len
                     for g in range(n-1,-1,-1):
                         if i & (1<<g):
-                            print(1,end="") #напечатает меньшее из проверяемых эквив состояний
+                            s=s+"1" #напечатает меньшее из проверяемых эквив состояний
                         else:
-                            print(0,end="")
-                    print(" ",end="")
+                            s=s+"0"
+                    s=s+" "
                     
                     for g in range(n-1,-1,-1): #напечатает большее из проверяемых эквив состояний
                         if j & (1<<g):
-                            print(1,end="")
+                            s=s+"1"
                         else:
-                            print(0,end="")
-                    print(" ",end="")
+                            s=s+"0"
+                    s=s+" "
+        return s
         
 
-s='2 00\n2 3 10101010\n2 3 11010101\n2 3 01011010'
-A=Task_03_01()
-A.main(s)
+

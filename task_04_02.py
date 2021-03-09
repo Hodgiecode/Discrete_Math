@@ -95,16 +95,12 @@ class Task_04_02:
        table=temp_table
        self.sort(table)
 
-       print(n,len(table))
+       s=""
+       s=s+str(n)+" "+str(len(table))+"\n"
        for i in range(head):
            for j in range(n):
-               print(table[i][j],end="")
-           print()
+               s=s+str(table[i][j])
+           s=s+"\n"
+       return s
       
 
-f=open("in.txt","r",encoding="utf-8")
-s=f.read()
-f.close()
-
-A=Task_04_02()
-A.main(s)

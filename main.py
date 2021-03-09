@@ -8,6 +8,7 @@ path = os.path.dirname(os.path.dirname(__file__))
 
 from handler import handler_task_list,generate_test
 from little_calc import sub_block,basic
+from solver import solve
 
 '''чтобы работало Вырезать+Вставить в окне программы'''
 
@@ -16,7 +17,25 @@ class Graphic_interface():
         process = run(command, stdout=PIPE, stderr=PIPE,shell=True)
         return process.returncode
 
-    ############3
+    ############
+    def solve(self):
+        self.in_entry_down.delete(1.0,END)
+        self.in_entry_mid_left.delete(1.0,END)
+       
+        if self.doc0.get()!="Выберите раздел" and self.doc.get()!="Выберите задачу":
+            v1=self.doc0.get()
+            v2=self.doc.get()
+            if v2=="Сохранение 3" or v2=="Оболочка" or v2=="Алгоритм Квайна-МакКласки":
+                    self.in_entry_down.insert(1.0,"Для данной задачи решатель недоступен")
+            else:
+                data=self.in_entry.get(1.0,END)
+                s=solve(v1,v2,data)
+                self.in_entry_mid_left.insert(END,s)
+        else:
+            self.in_entry_down.insert(1.0,"Необходимо выбрать раздел и задачу из этого раздела")
+            
+        #self.button_sop["state"] = DISABLED
+        
     def tasklist(self,value):
         self.in_entry_mid_right.delete(1.0,END)
         if value=="Алгебра логики":
@@ -124,27 +143,30 @@ class Graphic_interface():
         self.frame_for_button_two=Frame(self.frame_for_button)
         self.frame_for_button_two.pack(side=RIGHT)
 
-        self.in_entry=Text(self.frame_for_in_entry,height=2,width=120)
+        self.in_entry=Text(self.frame_for_in_entry,height=5,width=120)
         self.in_entry.pack(side=LEFT,ipadx=10,ipady=5,padx=10,pady=5)
 
         self.in_entry_mid_left=Text(self.frame_up,height=29,width=60)
         self.in_entry_mid_left.pack(side=LEFT,fill = "both", expand = "yes",ipadx=10,ipady=5,padx=10,pady=5)
 
-        self.in_entry_mid_right=Text(self.frame_up,height=29,width=30)
+        self.in_entry_mid_right=Text(self.frame_up,height=29,width=60)
         self.in_entry_mid_right.pack(side=RIGHT,fill = "both", expand = "yes",ipadx=10,ipady=5,padx=10,pady=5)
 
-        self.in_entry_down=Text(self.frame_down,height=3,width=97)
+        self.in_entry_down=Text(self.frame_down,height=1,width=97)
         self.in_entry_down.pack(side=LEFT,ipadx=10,ipady=5,padx=10,pady=5)
 
+        self.button_sop=Button(self.frame_for_in_entry,text='Решить', width=18,command=self.solve)
+        self.button_sop.pack(padx=10,pady=5)
+    
         self.doc0 = StringVar(self.frame_for_in_entry)
         self.doc0.set("Выберите раздел")
         self.combo_task = OptionMenu(self.frame_for_in_entry, self.doc0, "Выберите раздел","Алгебра логики", "K-значная логика", "Автоматы", "Миним.булевых функций",command=self.tasklist)
         self.combo_task.pack()
 
-        self.button_ps = Button(self.frame_for_button_one, text='Parse', width=10,command=self.parse_formula)
+        self.button_ps = Button(self.frame_for_button_one, text='Разбор(P2)', width=12,command=self.parse_formula)
         self.button_ps.pack(padx=10,pady=5)
 
-        self.button_test = Button(self.frame_for_button_two, text='Генерация\nтестов', width=10,command=self.test_generate)
+        self.button_test = Button(self.frame_for_button_two, text='Генерация\nтестов', width=12,command=self.test_generate)
         self.button_test.pack(padx=10,pady=5)
 
         #self.button_edit_config = Button(self.frame_for_button_two, text='Edit_config', width=10)
@@ -154,7 +176,7 @@ class Graphic_interface():
         #self.button_save_config.pack(padx=10,pady=5)
         #self.button_save_config.pack_forget()
 
-        self.button_rn = Button(self.frame_for_button, text='Запись\nв файл', width=10,command=self.write_to_file)
+        self.button_rn = Button(self.frame_for_button, text='Запись в файл', width=12,command=self.write_to_file)
         self.button_rn.pack(padx=10,pady=5)
 
         #self.button_sop=Button(self.frame_for_button, text='Show options', width=10)
@@ -176,6 +198,7 @@ class Graphic_interface():
         self.doc.set("Выберите задачу")
         self.combo = OptionMenu(self.frame_for_in_entry, self.doc, "Выберите задачу")
         self.combo.pack()
+
         
         self.master.mainloop()
 

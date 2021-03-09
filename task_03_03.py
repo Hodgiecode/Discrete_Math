@@ -92,8 +92,15 @@ class Task_03_03:
                 if qt!=0: qt=1
                 l=qt*(1<<(nn-ij+1+n))+xt
                 C[ij][j]=self.B[ij-n][l+1]
-        
-        print(C)
+
+        s=""
+        if C!=[]:
+            s=C[0][0]+" "+C[0][1]+C[0][2]+"\n"
+            for i in range(1,len(C)):
+                s=s+"2 "+C[i][0]+" "+"".join(C[i][1:])+"\n"
+
+        return s
+       
         
         
     def read(self):
@@ -110,29 +117,8 @@ class Task_03_03:
         
     def main(self,data):
         self.data=data
-        #self.A=[[1, 0], [2, 1, 0, 1, 0], [2, 0, 0, 1, 1]]
-        #self.B=[[1, 0], [2, 1, 1, 0, 1], [2, 1, 1, 0, 0]]
-
-        #self.A=[[1, 0], [2, 0, 0, 1, 0], [2, 1, 1, 0, 0]]
-        #self.B=[[1, 1], [2, 1, 1, 0, 0], [2, 1, 0, 1, 0]]
         self.read()
 
         
         self.superposition()
 
-'''
-1 0
-2 2 0101
-2 2 0011
-1 0
-2 2 1010
-2 2 0110
-
-2 10
-2 3 10101010
-2 3 11001111
-2 3 11001100
-'''
-s="1 0\n2 2 1101\n2 2 0011\n1 1\n2 2 0001\n2 2 1100"
-A=Task_03_03()
-A.main(s)

@@ -1,5 +1,9 @@
 class Task_01_07:
-    def main(self,k,n,vectznac):
+    def main(self,data):
+        data=data.split()
+        k=int(data[0])
+        n=int(data[1])
+        vectznac=data[2]
         cnt=100
         kol=1<<n
         vect=[]
@@ -112,12 +116,9 @@ class Task_01_07:
             if not temp[i] in res:
                 res.append(temp[i])
 
+        s=""
         for i in range(len(res)):
-            print(k,1,res[i])
-        return 0
+            s=s+str(k)+" "+str(1)+" "+str(res[i])+"\n"
 
-k=2
-n=3
-vect="00000001"
-A=Task_01_07()
-A.main(k,n,vect)
+        return s
+

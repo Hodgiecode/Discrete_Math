@@ -1,5 +1,8 @@
 class Task_01_06:
-    def main(self,n,vectznac):
+    def main(self,data):
+        data=data.split(" ")
+        n=int(data[1])
+        vectznac=data[2]
         kol=1<<n
         ans=0
         vect=[]
@@ -15,17 +18,13 @@ class Task_01_06:
             if vect[i]==1:
                 count=count+1
 
-        print(2,n,count)
+        s=""
+        s="2 "+str(n)+" "+str(count)+"\n"
         for i in range(kol):
             if vect[i]>0:
                 for j in range(n-1,-1,-1):
-                    print((i>>j)&1,end="")
+                    s=s+str(((i>>j)&1))
                     
-                print("",vect[i])
-               
-        return 0
+                s=s+" "+str(vect[i])+"\n"
 
-n=3
-vect="00000001"
-A=Task_01_06()
-A.main(n,vect)
+        return s

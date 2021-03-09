@@ -1,5 +1,7 @@
 class Task_01_01:
-    def main(self,n,vectznac):
+    def main(self,data):
+        k,n,vectznac=data.split(' ')
+        n=int(n)
         kol=1<<n
         vect=[]
         for i in range(kol):
@@ -19,10 +21,5 @@ class Task_01_01:
 
             step=step>>1
 
-        print(flag)
         return flag
 
-n=4
-vect="0110100110010110"
-A=Task_01_01()
-A.main(n,vect)

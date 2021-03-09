@@ -96,13 +96,7 @@ class Task_03_02:
                 right=right+1
                 
             
-        res=int(res)
-        print(res)
+        return str(int(res))
 
-f=open("in.txt","r",encoding="utf-8")
-s=f.read()
-f.close()
 
-A=Task_03_02()
-A.main(s)
 

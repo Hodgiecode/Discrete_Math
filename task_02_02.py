@@ -34,7 +34,7 @@ class Task_02_02:
             
         self.get_all_set(a)
 
-        b=k**self.n
+        b=self.k**self.n
         for i in range(b):
             temp=[]
             for j in range(self.n): temp.append(0) 
@@ -42,7 +42,7 @@ class Task_02_02:
         
         self.var_set()
 
-        for i in range(1<<k):
+        for i in range(1<<self.k):
             temp=[]
             for j in range(self.k-1): temp.append(0)
             self.result.append(temp)
@@ -73,7 +73,7 @@ class Task_02_02:
                            g=g+1
                            break
 
-        if g==l**n:
+        if g==l**self.n:
             return 1
         return 0
     
@@ -86,7 +86,7 @@ class Task_02_02:
                     self.sets[i][f]=j
                     f=f+1
                   
-            self.sets[i][k-1]=f
+            self.sets[i][self.k-1]=f
 
     def var_set(self):
         a=self.k**self.n
@@ -112,7 +112,10 @@ class Task_02_02:
         else:
             return 0
 
-    def main(self,k,n,vals):
+    def main(self,data):
+        k,n,vals=data.split(" ")
+        k=int(k)
+        n=int(n)
         self.k=k
         self.n=n
         a=self.k**self.n
@@ -120,11 +123,11 @@ class Task_02_02:
         for i in range(a): self.vals.append(vals[i])
         
         self.keeping_sets()
-        return self.answer
 
-k=3
-n=2
-vals="000000000"
-A=Task_02_02()
-r=A.main(k,n,vals)
-print(r)
+        s=""
+        for i in range(len(self.answer)):
+            s=s+self.answer[i]+"\n"
+            
+        return s
+
+
