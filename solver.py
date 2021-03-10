@@ -15,6 +15,7 @@ from task_03_01 import Task_03_01
 from task_03_02 import Task_03_02
 from task_03_03 import Task_03_03
 
+from task_04_01 import Task_04_01
 from task_04_02 import Task_04_02
 from task_04_03 import Task_04_03
 from task_04_04 import Task_04_04
@@ -23,6 +24,11 @@ from task_04_05 import Task_04_05
 
 def solve(value1,value2,data):
      if value1=="Миним.булевых функций":
+        if value2=="Алгоритм Квайна-МакКласки":
+            A=Task_04_01()
+            t=A.main(data)
+            return t
+          
         if value2=="Алгоритм Блейка":
             A=Task_04_02()
             t=A.main(data)

@@ -1,6 +1,6 @@
 from tkinter import *
 from datetime import datetime
-from tkinter import ttk
+from tkinter import ttk,filedialog
 
 import os
 path = os.path.dirname(os.path.dirname(__file__))
@@ -17,6 +17,20 @@ class Graphic_interface():
         process = run(command, stdout=PIPE, stderr=PIPE,shell=True)
         return process.returncode
 
+    def upload(self):
+        filename=filedialog.askopenfilename()
+        f=open(filename,"r",encoding="utf-8")
+        s=f.read()
+        f.close()
+        self.in_entry.delete(1.0,END)
+        self.in_entry.insert(END,s)
+
+    def clean(self):
+        self.in_entry_down.delete(1.0,END)
+        self.in_entry_mid_left.delete(1.0,END)
+        self.in_entry.delete(1.0,END)
+        self.in_entry_mid.delete(1.0,END)
+
     ############
     def solve(self):
         self.in_entry_down.delete(1.0,END)
@@ -25,11 +39,12 @@ class Graphic_interface():
         if self.doc0.get()!="Выберите раздел" and self.doc.get()!="Выберите задачу":
             v1=self.doc0.get()
             v2=self.doc.get()
-            if v2=="Сохранение 3" or v2=="Оболочка" or v2=="Алгоритм Квайна-МакКласки":
+            if v2=="Сохранение 3" or v2=="Оболочка":
                     self.in_entry_down.insert(1.0,"Для данной задачи решатель недоступен")
             else:
                 data=self.in_entry.get(1.0,END)
                 s=solve(v1,v2,data)
+                print(s)
                 self.in_entry_mid_left.insert(END,s)
         else:
             self.in_entry_down.insert(1.0,"Необходимо выбрать раздел и задачу из этого раздела")
@@ -72,12 +87,38 @@ class Graphic_interface():
             v1=self.doc0.get()
             v2=self.doc.get()
             t=generate_test(v1,v2)
+            v1=self.doc0.get()
+            
+            if v1=="Алгебра логики": v="1"
+            if v1=="K-значная логика": v="2"
+            if v1=="Автоматы": v="3"
+            if v1=="Миним.булевых функций": v="4"
+
+            a1=['Монотонность','Линейность','Самодвойственность','Шефферовость','Базис','Полином Жегалкина','Оболочка']
+            a2=['Монотонность','Сохранение','Сохранение 2','Сохранение 3','Шефферовость','Оболочка']
+            a3=['Состояния','Эквивалентность','Суперпозиция']
+            a4=['Алгоритм Квайна-МакКласки','Алгоритм Блейка','Алгоритм Блейка 2','Ядро','Тупиковые ДНФ']
+
+            if v=="1": lst=a1
+            
+            if v=="2": lst=a2
+
+            if v=="3": lst=a3
+
+            if v=="4": lst=a4
+
+            for i in range(len(lst)):
+                num=0
+                if lst[i]==v2:
+                    num=i+1
+                    break
+           
             for i in range(len(t)):
-                f=open("test_"+str(i+1)+".txt","w",encoding="utf-8")
+                f=open(v+"_0"+str(num)+"-"+str(i+1)+"in.txt","w",encoding="utf-8")
                 f.write(t[i][0])
                 f.close()
 
-                f=open("ans_"+str(i+1)+".txt","w",encoding="utf-8")
+                f=open(v+"_0"+str(num)+"-"+str(i+1)+"out.txt","w",encoding="utf-8")
                 f.write(t[i][1])
                 f.close()
         else:
@@ -94,6 +135,8 @@ class Graphic_interface():
             for i in range(len(t)):
                 self.in_entry_mid_right.insert(END,"Тест "+str(i+1)+"\n")
                 self.in_entry_mid_right.insert(END,t[i][0])
+                self.in_entry_mid_right.insert(END,"\nОжидаемый ответ\n")
+                self.in_entry_mid_right.insert(END,t[i][1])
                 self.in_entry_mid_right.insert(END,'\n\n')
                 
         else:
@@ -115,7 +158,6 @@ class Graphic_interface():
         filemenu=Menu(self.menu,tearoff=0)
         helpmenu=Menu(self.menu,tearoff=0)
 
-        self.menu.add_command(label='Help')
         self.menu.add_command(label='Exit',command=self.master.destroy)
        
         self.frame_up=Frame(self.master)
@@ -152,7 +194,7 @@ class Graphic_interface():
         self.in_entry_mid_right=Text(self.frame_up,height=29,width=60)
         self.in_entry_mid_right.pack(side=RIGHT,fill = "both", expand = "yes",ipadx=10,ipady=5,padx=10,pady=5)
 
-        self.in_entry_down=Text(self.frame_down,height=1,width=97)
+        self.in_entry_down=Text(self.frame_down,height=2,width=97)
         self.in_entry_down.pack(side=LEFT,ipadx=10,ipady=5,padx=10,pady=5)
 
         self.button_sop=Button(self.frame_for_in_entry,text='Решить', width=18,command=self.solve)
@@ -176,20 +218,17 @@ class Graphic_interface():
         #self.button_save_config.pack(padx=10,pady=5)
         #self.button_save_config.pack_forget()
 
-        self.button_rn = Button(self.frame_for_button, text='Запись в файл', width=12,command=self.write_to_file)
+        self.button_rn = Button(self.frame_for_button, text='Тест по файлам', width=12,command=self.write_to_file)
         self.button_rn.pack(padx=10,pady=5)
 
-        #self.button_sop=Button(self.frame_for_button, text='Show options', width=10)
-        #self.button_sop.pack(padx=10,pady=5)
-
-        #self.button_hop=Button(self.frame_for_button, text='Hide options', width=10)
-        #self.button_hop.pack(padx=10,pady=5)
-        #self.button_hop.pack_forget()
+        self.button_hop=Button(self.frame_for_button, text='Загрузить тест', width=12, command=self.upload)
+        self.button_hop.pack(padx=10,pady=5)
+        
 
         #self.button_pic = Button(self.frame_for_button_one, text='Запись\nв файл', width=10)
         #self.button_pic.pack(padx=10,pady=5)
        
-        self.button_cl = Button(self.frame_for_button_one, text='Очистить', width=12)
+        self.button_cl = Button(self.frame_for_button_one, text='Очистить', width=12,command=self.clean)
         self.button_cl.pack(padx=10,pady=5)
 
         #self.button_ld = Button(self.frame_for_in_entry, text='Load_and_run', width=12)
