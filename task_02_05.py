@@ -75,7 +75,7 @@ class Task_02_05():
         counter=1 #счётчик увеличиватся, если мы не получали какую-ту одноместную ф-ию в рез-те ср-ния i той с j-тыми.если j=счётчику,то начинаем получать ф-ии из (i+1)ой и j-тыми
 
         for i in range(kolvo_odnomest): #начало построения одноместных ф-ий
-            for j in range(kolvo_odnomest):
+            for j in range(counter):
                 for g in range(k):
                     super_position_func[g]=vect[vse_odnomest_func[j][g]+(vse_odnomest_func[i][g]*k)]; # суперпозиция функций
                     
