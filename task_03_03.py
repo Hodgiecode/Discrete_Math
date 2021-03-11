@@ -95,6 +95,10 @@ class Task_03_03:
 
         s=""
         if C!=[]:
+            for i in range(len(C)):
+                for j in range(len(C[i])):
+                    C[i][j]=str(C[i][j])
+                    
             s=C[0][0]+" "+C[0][1]+C[0][2]+"\n"
             for i in range(1,len(C)):
                 s=s+"2 "+C[i][0]+" "+"".join(C[i][1:])+"\n"
@@ -118,7 +122,7 @@ class Task_03_03:
     def main(self,data):
         self.data=data
         self.read()
+        s=self.superposition()
+        return s
 
-        
-        self.superposition()
 
