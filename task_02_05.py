@@ -38,12 +38,6 @@ class Task_02_05():
                 
         for i in range(k): kolvoznac.append(0) #нужен для определения принимает ли ф-ия к-значений
 
-        peremennie=[]
-        for i in range(k**n):
-            tmp=[]
-            for j in range(n): tmp.append(0)
-            peremennie.append(tmp)
-
         ###проверка, принимает ли функция все к значений
         res = self.check_number_of_func_results(k**n,kolvoznac,vect,k)
         
@@ -51,13 +45,7 @@ class Task_02_05():
             return "0"
         
         ###конец проверки(если принимает к значений, то начнём получать все одноместные ф-ии)
-        for i in range(k**n): #заполнение переменных, перебираем все значения переменных
-            integer_part=i #изначально целая часть = i
-            for j in range(n): #получаем переменные,то есть производится перевод каждого числа от 0 до k**n в k-тую систему счисления
-                mod_part=integer_part%k #находим остаток от деления на значность логики
-                integer_part=float(integer_part)/k
-                peremennie[i][n-j-1]=int(mod_part)
-
+        
         #проверка кол-ва одноместных ф-ий
         super_position_func=[] # вектор значений, получившейся одноместной ф-ии,этот массив нужен для сравнения с другими уже имеющемися
         for i in range(k): super_position_func.append(0)
