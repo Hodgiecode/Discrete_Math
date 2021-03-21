@@ -5,4 +5,4 @@
 	https://github.com/neogeny/TatSu
 
 2.	В директории кликнуть на main.exe. Должно появиться вот такое окошко.
-![images](https://github.com/Hodgiecode/Discrete_Math/image.png)
+![image](https://github.com/Hodgiecode/Discrete_Math/blob/main/image.png)
